@@ -2,11 +2,16 @@ import os
 from collections import defaultdict
 from astropy.table import Table, Column, vstack
 from openpyxl import Workbook
+from fuzzywuzzy import process
+
 # Define the base directory
 base_dir = './DataTree'
 
 # Function to process data for a specific year
 def process_year(year, printing=True):
+    '''
+    you give func a year and get all objects that have been observed and the number of observation and instruments of obervation
+    '''
     year_dir = os.path.join(base_dir, str(year))
     if not os.path.exists(year_dir):
         print(f"No data found for the year {year}.")
@@ -67,6 +72,9 @@ def process_year(year, printing=True):
 
 # Function to find observation dates for a specific object across all years
 def find_object_observation_dates(object_name, start_year=2006, end_year=2024):
+    '''
+    give name of object and returns the dates where the object where observed
+    '''
     observation_dates = []
 
     for year in range(start_year, end_year + 1):
@@ -87,7 +95,6 @@ def find_object_observation_dates(object_name, start_year=2006, end_year=2024):
 
     return sorted(set(observation_dates))
 
-from fuzzywuzzy import process
 
 def findObject(object_name: str, years: list):
     """
@@ -96,6 +103,8 @@ def findObject(object_name: str, years: list):
     years = [2011, 2012, 2013]
     matched_rows = findObject(object_name, years)
     matched_rows
+
+    you give the name and you get the best matched name like internet search
     """
     def fuzzy_search(term, lst):
         # Get all matches using fuzzywuzzy's process.extract
